@@ -35,60 +35,66 @@ alert("Welcome to Quiz Ninja!");
 //   { "question": "Wonder Woman", "answer": "Dianna Prince" }
 //   ]
 //   }
-
 var quiz = [
-  ["What is Superman's real name?","Clarke Kent"],
-  ["What is Wonderwoman's real name?","Dianna Prince"],
-  ["What is Batman's real name?","Bruce Wayne"]
-  ];
-  var score = 0 // initialize score
-  play(quiz);
+  ["What is Superman's real name?", "Clarke Kent"],
+  ["What is Wonderwoman's real name?", "Dianna Prince"],
+  ["What is Batman's real name?", "Bruce Wayne"]
+];
+var score = 0; // initialize score
 
-  function play(quiz){
-    // main game loop
-    for(var i=0, question, answer, max=quiz.length; i<max; i++) {
-    question = quiz[i][0];
-    answer = ask(question);
-    check(answer, i);
-    }
-    // end of main game loop
-    gameOver();
-    }
-
-    
-
-    function ask(question) {
-      return prompt(question); // quiz[i][0] is the ith questions
-      }
-
-      function check(answer, i) {
-        if(answer === quiz[i][1]){ // quiz[i][1] is the ith answer
-        alert("Correct!");
-        // increase score by 1
-        score++;
-        } else {
-        alert("Wrong!");
-        }
-        }
-        
-        function gameOver(){
-          // inform the player that the game has finished and tell them how many points they have scored
-          alert("Game Over, you scored " + score + "points");
-          }
-          
-      
-    function update(Element, content, klass) {
-      var p = element.firstchild || document.createElement("p");
-      p.textContent = content;
-      element.appendChild(p);
-      if(klass) {
-        p.className = klass
-      }
-    }
-
-    var $score = document.getElementById("score");
+// References to HTML elements
+var $score = document.getElementById("score");
 var $question = document.getElementById("question");
 var $feedback = document.getElementById("feedback");
+
+// Start the quiz
+play(quiz);
+
+function play(quiz) {
+  // Main game loop
+  update($score, score);
+  for (var i = 0, question, answer, max = quiz.length; i < max; i++) {
+    question = quiz[i][0];
+    answer = ask(question);
+    check(answer, i); // Pass the current index to the check function
+  }
+  // End of main game loop
+  gameOver();
+}
+
+function update(element, content, klass) {
+  var p = element.firstChild || document.createElement("p");
+  p.textContent = content;
+  element.appendChild(p);
+  if (klass) {
+    p.className = klass;
+  }
+}
+
+function ask(question) {
+  update($question, question);
+  return prompt(question); // Return the user's input (answer)
+}
+
+function check(answer, i) {
+  if (answer === quiz[i][1]) { // Access the answer at index 1
+    update($feedback, "Correct!", "right");
+    score++; // Increase the score by 1
+    update($score, score);
+  } else {
+    update($feedback, "Incorrect!", "wrong");
+  }
+}
+
+function gameOver() {
+  // Inform the player that the game has finished and tell them how many points they have scored
+  update($question, "Game Over, you scored " + score + " points");
+}
+          
+      
+    
+
+    
 
 
   
